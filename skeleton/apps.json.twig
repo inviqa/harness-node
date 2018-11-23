@@ -1,0 +1,14 @@
+{
+  "apps": [
+    {
+      "name": "{{ @('workspace.name') }}",
+      "script": "./bin/www",
+      "instances": 1,
+      "exec_mode": "fork",
+      "env": {
+        "NODE_ENV": "'{{ (@('app.mode') == 'production') ? 'production' : 'developer' }}'",
+        "PORT": "3000"
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+
+# Directories
+
+/.my127ws
+
+# Files
+
+/.dockerignore
+/docker-sync.yml
+/workspace.override.yml
+
+# Keep

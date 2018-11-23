@@ -1,0 +1,10 @@
+
+confd('harness:/'):
+  - { src: docker/image/console/Dockerfile }
+  - { src: docker/image/pm2/Dockerfile }
+  - { src: docker/stack/preview/docker-compose.yml }
+  - { src: skeleton/apps.json }
+  - { src: skeleton/Jenkinsfile }
+  - { src: .env }
+  - { src: docker-compose.yml }
+  - { src: docker-sync.yml }
