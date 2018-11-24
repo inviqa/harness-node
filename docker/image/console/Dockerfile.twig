@@ -2,7 +2,7 @@ FROM node:10-alpine
 
 # user: build
 # -----------
-RUN useradd --create-home --system build
+RUN adduser -h /home/build -S build
 ENV PATH "$PATH:/app/bin"
 
 COPY .my127ws/docker/image/console/root /
