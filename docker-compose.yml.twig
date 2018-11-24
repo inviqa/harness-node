@@ -5,21 +5,21 @@
 version: '3'
 services:
   console:
-    {% if @('app.build') == 'dynamic' %}
+{% if @('app.build') == 'dynamic' %}
     entrypoint: /entrypoint.dynamic.sh
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
       - ./skeleton:/home/build/skeleton
-    {% endif %}
+{% endif %}
     labels:
       - traefik.enable=false
     build:
       context: ../
       dockerfile: .my127ws/docker/image/console/Dockerfile
-      {% if @('app.build') == 'static' %}
+{% if @('app.build') == 'static' %}
       args:
         APP_MODE: {{ @('app.mode') }}
-      {% endif %}
+{% endif %}
     environment: &APP_ENV_VARS
       HOST_OS_FAMILY: ${HOST_OS_FAMILY}
       APP_NAME: ${APP_NAME}
@@ -28,10 +28,10 @@ services:
       - private
   pm2:
     build: docker/image/pm2
-    {% if @('app.build') == 'dynamic' %}
+{% if @('app.build') == 'dynamic' %}
     volumes:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
-    {% endif %}
+{% endif %}
     labels:
       - traefik.backend=${APP_NAME}
       - traefik.frontend.rule=Host:${APP_HOST}
