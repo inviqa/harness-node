@@ -1,9 +1,18 @@
 FROM node:10-alpine
 
+RUN apk --update add \
+  # package dependencies \
+    bash \
+    rsync \
+    shadow \
+  # clean \
+    && rm -rf /var/cache/apk/*
+
+WORKDIR /app
+
 # user: build
 # -----------
-RUN addgroup -S build \
- && adduser -h /home/build -S build build
+RUN useradd --create-home --system build
 ENV PATH "$PATH:/app/bin"
 
 COPY .my127ws/docker/image/console/root /
