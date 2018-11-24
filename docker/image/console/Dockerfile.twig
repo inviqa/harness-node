@@ -2,7 +2,8 @@ FROM node:10-alpine
 
 # user: build
 # -----------
-RUN adduser -h /home/build -S build
+RUN addgroup -S build \
+ && adduser -h /home/build -S build build
 ENV PATH "$PATH:/app/bin"
 
 COPY .my127ws/docker/image/console/root /
