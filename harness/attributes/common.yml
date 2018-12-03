@@ -21,6 +21,9 @@ attributes.default:
   domain: my127.site
   hostname: = @('namespace') ~ '.' ~ @('domain')
 
+  pm2:
+    env: ~
+
   tls:
     key: |
       -----BEGIN PRIVATE KEY-----

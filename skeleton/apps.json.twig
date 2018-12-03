@@ -6,8 +6,13 @@
       "instances": 1,
       "exec_mode": "fork",
       "env": {
-        "NODE_ENV": "'{{ (@('app.mode') == 'production') ? 'production' : 'developer' }}'",
-        "PORT": "3000"
+        "NODE_ENV": "{{ (@('app.mode') == 'production') ? 'production' : 'developer' }}",
+        "PORT": "3000"{% if @('pm2.env') %},{% endif %}
+{% for env_variable, value in @('pm2.env') %}
+
+        "{{ env_variable }}": "{{ value }}"{% if not loop.last %},{% endif %}
+{% endfor %}
+
       }
     }
   ]
