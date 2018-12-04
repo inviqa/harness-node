@@ -14,6 +14,7 @@ VOLUME /app
 {% endif %}
 
 USER node
+EXPOSE 3000
 
 WORKDIR /app
 CMD ["pm2-runtime", "start", "apps.json"]
