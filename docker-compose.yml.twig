@@ -43,11 +43,18 @@ services:
     depends_on:
       - console
     networks:
-      - private
-      - shared
+      private:
+        aliases:
+          - pm2
+      shared:
+        aliases:
+          - {{ @('namespace') }}_pm2
 networks:
   private:
     external: false
+  monitoring:
+    external:
+      name: my127ws_monitoring
   shared:
     external:
       name: my127ws
