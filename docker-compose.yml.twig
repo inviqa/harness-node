@@ -44,10 +44,13 @@ services:
       - console
     networks:
       - private
-      - shared
+      - monitoring
 networks:
   private:
     external: false
+  monitoring:
+    external:
+      name: my127ws_monitoring
   shared:
     external:
       name: my127ws
