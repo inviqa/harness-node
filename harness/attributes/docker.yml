@@ -1,0 +1,21 @@
+attributes:
+  services:
+    console:
+      environment:
+        HOST_OS_FAMILY: = @('host.os')
+        APP_NAME: = @('workspace.name')
+        APP_HOST: = @('hostname')
+        NODE_ENV: = @('app.mode')
+
+    pm2:
+      environment:
+        HOST_OS_FAMILY: = @('host.os')
+        APP_NAME: = @('workspace.name')
+        APP_HOST: = @('hostname')
+        NODE_ENV: = @('app.mode')
+        PORT: 3000
+      labels:
+        traefik.backend: = @('workspace.name')
+        traefik.frontend.rule: = 'Host:' ~ @('hostname')
+        traefik.docker.network: my127ws
+        traefik.port: 3000

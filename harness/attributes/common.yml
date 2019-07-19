@@ -14,6 +14,32 @@ attributes.default:
 
   docker-sync: no
 
+  pipeline:
+    publish:
+      enabled: no
+    preview:
+      enabled: no
+      environment: ~
+      cluster:
+        name: null
+      namespace: = @('workspace.name') ~ '-' ~ slugify(branch())
+      hostname:  = @('pipeline.preview.namespace') ~ '.example.com'
+    qa:
+      enabled: no
+      environment: ~
+      branch: develop
+      cluster:
+        name: null
+      namespace: = @('workspace.name') ~ '-' ~ 'qa'
+      hostname: = @('pipeline.qa.namespace') ~ '.example.com'
+
+  docker:
+    repository: = @("workspace.name")
+    config: null
+    image:
+      console: = 'node:' ~ @('node.version') ~ '-stretch'
+      pm2: = 'node:' ~ @('node.version') ~ '-stretch'
+
   assets:
     remote: ="s3://"~@("aws.bucket")~"/development"
     local: tools/assets/development
@@ -21,8 +47,21 @@ attributes.default:
   domain: my127.site
   hostname: = @('namespace') ~ '.' ~ @('domain')
 
-  pm2:
-    env: ~
+  node:
+    version: 12
+
+  backend:
+    path: /app
+    build:
+      when: -f "package.json"
+      steps:
+        - task "npm:install"
+    install:
+      steps: []
+    init:
+      steps: []
+    migrate:
+      steps: []
 
   tls:
     key: |

@@ -5,7 +5,7 @@
 version: '3'
 services:
 {% if @('extra_services') %}
-{{ to_yaml(@('extra_services')) | raw }}
+{{ to_yaml(@('extra_services'), 2, 2) | raw }}
 {% endif %}
   console:
 {% if @('app.build') == 'dynamic' %}
@@ -23,12 +23,11 @@ services:
       args:
         APP_MODE: {{ @('app.mode') }}
 {% endif %}
-    environment: &APP_ENV_VARS
-      HOST_OS_FAMILY: ${HOST_OS_FAMILY}
-      APP_NAME: ${APP_NAME}
-      APP_HOST: ${APP_HOST}
+    environment:
+{{ to_yaml(@('services.console.environment'), 2, 6) | raw }}
     networks:
       - private
+
   pm2:
     build: docker/image/pm2
 {% if @('app.build') == 'dynamic' %}
@@ -36,15 +35,15 @@ services:
       - {{ (dockersync) ? @('workspace.name') ~ '-sync:/app:nocopy' : '../:/app:delegated' }}
 {% endif %}
     labels:
-      - traefik.backend=${APP_NAME}
-      - traefik.frontend.rule=Host:${APP_HOST}
-      - traefik.docker.network=my127ws
-      - traefik.port=3000
+{{ to_yaml(@('services.pm2.labels'), 2, 6) | raw }}
     depends_on:
       - console
+    environment:
+{{ to_yaml(@('services.pm2.environment'), 2, 6) | raw }}
     networks:
       - private
       - shared
+
 networks:
   private:
     external: false
